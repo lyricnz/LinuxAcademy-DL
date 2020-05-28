@@ -128,16 +128,16 @@ if not os.path.exists(os.getcwd() + os.path.sep + 'cookies.txt'):
     exit(1)
 
 try:
+    output_directory = os.getcwd() + os.path.sep + title + os.path.sep
+    index_width = len(str(len(urls) + 1))
     for index, url in enumerate(urls, start=0):
         temp_list = [urls[index]]
-        serial = str(index + 1)
         print(f'Downloading: {lessons[index]} ... ', end='', flush=True)
+        clean_name = re.sub('[?/:]', '', lessons[index])
         ydl_opts = {
             'cookiefile': 'cookies.txt',
             'force_generic_extractor': True,
-            'outtmpl': os.getcwd() + os.path.sep + title + os.path.sep + serial + '. ' + re.sub('[?/:]', '',
-                                                                                                lessons[
-                                                                                                    index]) + '.%(ext)s',
+            'outtmpl': f"{output_directory}{index + 1:0{index_width}d}. {clean_name}.%(ext)s",
             'sleep_interval': 10,
             'retries': 10,
             'allsubtitles': True,
